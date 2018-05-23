@@ -1,15 +1,15 @@
 from django.db import models
 from django.shortcuts import render
-
-from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailimages.models import Image
-from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, PageChooserPanel, InlinePanel
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
-
 from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import (
+    FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel)
+from wagtail.core.fields import RichTextField
+from wagtail.core.models import Orderable
+from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.images.models import Image
 
+from dev42.page import Page
 from dev42.utils.views import ModelViewProxy
 
 views = ModelViewProxy('dev42.website.views')
@@ -28,14 +28,14 @@ class ContentPage(Page):
     indexed_fields = ('body', )
     search_name = None
 
-ContentPage.content_panels = [
-    FieldPanel('title', classname="full title"),
-    FieldPanel('body', classname="full"),
-]
+    content_panels = [
+        FieldPanel('title', classname="full title"),
+        FieldPanel('body', classname="full"),
+    ]
 
-ContentPage.promote_panels = [
-    MultiFieldPanel(COMMON_PANELS, "Common page configuration"),
-]
+    promote_panels = [
+        MultiFieldPanel(COMMON_PANELS, "Common page configuration"),
+    ]
 
 
 class Sponsor(models.Model):
@@ -45,8 +45,8 @@ class Sponsor(models.Model):
     # Must be `null=True, on_delete=models.SET_NULL` to prevent cascading
     # deletion when the image is removed. `blank=False` makes it required when
     # adding/editing it through forms though.
-    logo = models.ForeignKey(Image, blank=True, null=True,
-                                       on_delete=models.SET_NULL)
+    logo = models.ForeignKey(
+        Image, blank=True, null=True, on_delete=models.SET_NULL)
 
     page = ParentalKey('website.HomePage', related_name='sponsors')
 
@@ -67,17 +67,14 @@ class HomePage(Page):
     email = models.EmailField(blank=True)
     github = models.URLField(blank=True)
 
-    # Sponsors
-    template = 'layouts/website/homepage.jade'
-
     serve = views.homepage
 
-HomePage.content_panels = [
-    FieldPanel('title', classname="full title"),
-    FieldPanel('body', classname="full title"),
-    FieldPanel('twitter'),
-    FieldPanel('facebook'),
-    FieldPanel('email'),
-    FieldPanel('github'),
-    InlinePanel( HomePage, 'sponsors', label="Sponsors" ),
-]
+    content_panels = [
+        FieldPanel('title', classname="full title"),
+        FieldPanel('body', classname="full title"),
+        FieldPanel('twitter'),
+        FieldPanel('facebook'),
+        FieldPanel('email'),
+        FieldPanel('github'),
+        InlinePanel('sponsors', label="Sponsors"),
+    ]

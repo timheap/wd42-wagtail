@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+<div class="page-header">
+	<a href="/" class="logo wd42"><span class="name">WD</span><span class="name-long">Web Developer</span><span class="organisation">42&deg;</span></a>
+	<div class="tagline">The meetup at the end of the universe...</div>
+</div>
+
+<div class="details-general">
+	<div class="wrap">
+		<h1>Page not found</h1>
+		<p>Sorry, the page <strong>{{ request.build_absolute_uri }}</strong> was not found</p>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+<div class="page-header">
+	<a href="/" class="logo wd42"><span class="name">WD</span><span class="name-long">Web Developer</span><span class="organisation">42&deg;</span></a>
+	<div class="tagline">The meetup at the end of the universe...</div>
+</div>
+
+<div class="details-upcoming">
+	<div class="wrap u-hascol">
+
+		<div class="countdown u-col-3">
+			{% if current_event.start_datetime %}
+				<div class="countdown--progress" data-startdatetime="{{ current_event.start_datetime.isoformat }}"></div>
+				<div class="countdown--message">Untl the next #wd42</div>
+
+			{% endif %}
+		</div>
+
+		<div class="nextevent u-col-3">
+			<div class="nextevent--title">{{ current_event.title|default:"Next #wd42 TBA" }}</div>
+			<div class="nextevent--date">
+				{{ current_event.start_datetime|date:"g:iA"|lower }}
+				{{ current_event.start_datetime|date:"l jS" }}
+			</div>
+			<div class="nextevent--action">
+				{% if current_event.signup_link %}
+					<a href="{{ current_event.signup_link }}" class="nextevent--register btn">
+						Register Now
+					</a>
+				{% endif %}
+				<a href="http://www.google.com/calendar/ical/joshgilli.es_ets7187s9vds2f1j4vsiljtf4k%40group.calendar.google.com/public/basic.ics" class="nextevent--ical">Get a reminder (iCal)</a>
+			</div>
+		</div>
+
+		<div class="line-up u-col-3">
+			{% if current_event.schedule %}
+				<ul>
+					{% for speaker in current_event.schedule.all %}
+						<li>
+							{{speaker.time|date:"g:iA"|lower }}:
+							<strong>{{speaker.title}}</strong>
+							{% if speaker.speaker %}
+								by <strong>{{ speaker.speaker }}</strong>
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+
+	</div>
+</div>
+
+<div class="details-general">
+	<div class="wrap u-hascol">
+
+		<div class="location u-col-3">
+			<h2 class="title">Find Us</h2>
+			<div class="map-contain">
+				<a href="https://goo.gl/maps/XqHrzXNycY52" class="map-control icon-forward">
+					<div class="visuallyhidden">Open in Google maps</div>
+				</a>
+				<div id="map"></div>
+			</div>
+		</div>
+
+		<div class="about u-col-3">
+			<h2 class="title">{{ page.title }}</h2>
+			{{ page.body|richtext }}
+		</div>
+
+		<div class="other u-col-3">
+			<h2 class="title">Get in touch</h2>
+
+			<div class="btn-group">
+				<a href="{{ page.twitter }}" class="btn">Twitter</a>
+				<a href="{{ page.facebook }}" class="btn">Facebook</a>
+				<a href="mailto:{{ page.email }}" class="btn">Email</a>
+				<a href="{{ page.github }}" class="btn">Github</a>
+			</div>
+
+			<h2 class="title">With thanks to...</h2>
+			{% for sponsor in page.sponsors.all %}
+				<a href="{{ sponsor.link }}" class="sponsor">{% image sponsor.logo width-200 %}</a>
+			{% endfor %}
+		</div>
+
+	</div>
+</div>
+{% endblock %}

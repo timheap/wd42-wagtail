@@ -1,10 +1,7 @@
-#!/usr/bin/env python
-import os
+#!/usr/bin/env python3
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dev42.settings.develop")
-
     from django.core.management import execute_from_command_line
 
     args = sys.argv[:]

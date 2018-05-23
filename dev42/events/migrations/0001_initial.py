@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
 import modelcluster.fields
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
+                ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='wagtailcore.Page', on_delete=models.CASCADE)),
                 ('start_datetime', models.DateTimeField(verbose_name='Start')),
                 ('end_datetime', models.DateTimeField(verbose_name='End')),
                 ('signup_link', models.URLField(blank=True)),
@@ -23,12 +23,12 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=('wagtailcore.page',),
+            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='EventIndex',
             fields=[
-                ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
+                ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='wagtailcore.Page', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=255)),
                 ('time', models.TimeField()),
                 ('speaker', models.CharField(max_length=255, blank=True)),
-                ('page', modelcluster.fields.ParentalKey(related_name='schedule', to='events.Event')),
+                ('page', modelcluster.fields.ParentalKey(related_name='schedule', to='events.Event', on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ['time'],
