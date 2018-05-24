@@ -4,7 +4,7 @@ import KeyboardJS from 'keyboardjs';
 
 $(document).ready(function(){
 	const mapEl = document.querySelector('#map');
-	const latlng = new google.maps.LatLng(-42.882165, 147.330705);
+	const latlng = new google.maps.LatLng(mapEl.dataset.lat, mapEl.dataset.lng);
 
 	const markerIcon = {
 		path: 'M 0, 0 m -10, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0',
