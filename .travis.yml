@@ -7,7 +7,7 @@ services:
   - postgres
 
 env:
-  - IMAGE_NAME=timheap/timheap
+  - IMAGE_NAME=timheap/wd42
 
 install:
   # Build each stage tagged separately, so they can be tested independently.
