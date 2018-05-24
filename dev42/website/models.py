@@ -1,14 +1,12 @@
 from django.db import models
-from django.shortcuts import render
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
-    FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel)
+    FieldPanel, InlinePanel, MultiFieldPanel)
 from wagtail.core.fields import RichTextField
-from wagtail.core.models import Orderable
-from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import Image
 
+from dev42.edit_handlers import LocationPanel
 from dev42.page import Page
 from dev42.utils.views import ModelViewProxy
 
@@ -67,14 +65,25 @@ class HomePage(Page):
     email = models.EmailField(blank=True)
     github = models.URLField(blank=True)
 
+    location_lng = models.DecimalField(max_digits=10, decimal_places=7)
+    location_lat = models.DecimalField(max_digits=10, decimal_places=7)
+
     serve = views.homepage
 
     content_panels = [
         FieldPanel('title', classname="full title"),
         FieldPanel('body', classname="full title"),
-        FieldPanel('twitter'),
-        FieldPanel('facebook'),
-        FieldPanel('email'),
-        FieldPanel('github'),
+        MultiFieldPanel([
+            LocationPanel(
+                'location_lat', 'location_lng',
+                initial_center=[-42.87936, 147.32941], initial_zoom=10,
+                selected_zoom=15, decimal_places=7),
+        ], "Where"),
+        MultiFieldPanel([
+            FieldPanel('twitter'),
+            FieldPanel('facebook'),
+            FieldPanel('email'),
+            FieldPanel('github'),
+        ], "Social media accounts"),
         InlinePanel('sponsors', label="Sponsors"),
     ]

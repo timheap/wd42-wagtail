@@ -1,0 +1,11 @@
+{% include "wagtailadmin/edit_handlers/field_row_panel.html" %}
+
+<div id="{{ panel.id_for_map }}" style="height: 400px; max-height: 80vh; width: 100%; clear: both;"></div>
+<script>
+$(function() {
+	var mapEl = document.querySelector("#{{ panel.id_for_map }}");
+	var latEl = document.querySelector("#{{ lat_field.id_for_label }}");
+	var lngEl = document.querySelector("#{{ lng_field.id_for_label }}");
+	new dev42.LocationPanel(mapEl, latEl, lngEl, {{ panel.js_options }});
+});
+</script>
