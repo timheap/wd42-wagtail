@@ -76,12 +76,7 @@
 		<div class="other u-col-3">
 			<h2 class="title">Get in touch</h2>
 
-			<div class="btn-group">
-				<a href="{{ page.twitter }}" class="btn">Twitter</a>
-				<a href="{{ page.facebook }}" class="btn">Facebook</a>
-				<a href="mailto:{{ page.email }}" class="btn">Email</a>
-				<a href="{{ page.github }}" class="btn">Github</a>
-			</div>
+			<div class="btn-group"><a href="{{ page.twitter }}" class="btn">Twitter</a><a href="{{ page.facebook }}" class="btn">Facebook</a><a href="mailto:{{ page.email }}" class="btn">Email</a><a href="{{ page.github }}" class="btn">Github</a></div>
 
 			<h2 class="title">With thanks to...</h2>
 			{% for sponsor in page.sponsors.all %}

@@ -38,7 +38,7 @@ $(document).ready(function(){
 
 		const timerId = countdown(
 			start,
-			(timespan) => $timer.text(timespan.toString()),
+			(timespan) => $timer.html(timespan.toHTML("span")),
 			countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS);
 	}
 

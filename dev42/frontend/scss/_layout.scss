@@ -27,6 +27,9 @@ body {
 		text-align: center;
 		&--progress {
 			@include font-size(24px);
+			span {
+				white-space: nowrap;
+			}
 		}
 		&--message {
 		}
@@ -34,7 +37,7 @@ body {
 			display: table-cell; // Because its part of the grid - see components/grid.scss
 		}
 	}
-	
+
 	.line-up {
 		text-align: center;
 		ul {
@@ -90,9 +93,9 @@ body {
 			height: auto;
 			display: block;
 		}
-		
+
 	}
-	
+
 	@include respond-to($tablet-context) {
 		display: block;
 		&--item {
@@ -115,18 +118,18 @@ body {
 	display: table;
 	width: 100%;
 	height: 100%;
-	
+
 	.details-upcoming,
 	.details-general,
 	.gallery {
 		display: none;
 	}
-	
+
 	.page-header {
 		padding: 0;
 		height: 100%;
 		display: table-cell;
 		vertical-align: middle;
 	}
-	
+
 }
