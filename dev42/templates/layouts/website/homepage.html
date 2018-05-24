@@ -61,7 +61,7 @@
 		<div class="location u-col-3">
 			<h2 class="title">Find Us</h2>
 			<div class="map-contain">
-				<a href="https://google.com/maps/search/?api=1&query={{ page.location_lat }},{{ page.location_lng }}" class="map-control icon-forward">
+				<a href="{{ page.location_link }}" class="map-control icon-forward">
 					<div class="visuallyhidden">Open in Google maps</div>
 				</a>
 				<div id="map" data-lat="{{ page.location_lat }}" data-lng="{{ page.location_lng }}"></div>

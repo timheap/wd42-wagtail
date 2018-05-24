@@ -65,6 +65,8 @@ class HomePage(Page):
     email = models.EmailField(blank=True)
     github = models.URLField(blank=True)
 
+    location_link = models.URLField(
+        help_text="Link to a map of the event location")
     location_lng = models.DecimalField(max_digits=10, decimal_places=7)
     location_lat = models.DecimalField(max_digits=10, decimal_places=7)
 
@@ -74,6 +76,7 @@ class HomePage(Page):
         FieldPanel('title', classname="full title"),
         FieldPanel('body', classname="full title"),
         MultiFieldPanel([
+            FieldPanel('location_link'),
             LocationPanel(
                 'location_lat', 'location_lng',
                 initial_center=[-42.87936, 147.32941], initial_zoom=10,
