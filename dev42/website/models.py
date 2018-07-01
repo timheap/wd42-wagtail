@@ -70,6 +70,8 @@ class HomePage(Page):
     location_lng = models.DecimalField(max_digits=10, decimal_places=7)
     location_lat = models.DecimalField(max_digits=10, decimal_places=7)
 
+    ical_feed = models.URLField(blank=True)
+
     serve = views.homepage
 
     content_panels = [
@@ -82,6 +84,9 @@ class HomePage(Page):
                 initial_center=[-42.87936, 147.32941], initial_zoom=10,
                 selected_zoom=15, decimal_places=7),
         ], "Where"),
+        MultiFieldPanel([
+            FieldPanel('ical_feed'),
+        ], "When"),
         MultiFieldPanel([
             FieldPanel('twitter'),
             FieldPanel('facebook'),
