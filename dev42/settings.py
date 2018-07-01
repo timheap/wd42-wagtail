@@ -6,7 +6,6 @@ from pathlib import PurePosixPath
 INSTALLED_APPS = [
     'dev42',
     'dev42.events',
-    'dev42.frontend',
     'dev42.website',
 
     'wagtail.admin',
@@ -17,18 +16,19 @@ INSTALLED_APPS = [
     'wagtail.sites',
     'wagtail.snippets',
     'wagtail.users',
-    'wagtail.contrib.settings',
     'wagtail.contrib.modeladmin',
+    'wagtail.contrib.settings',
     'modelcluster',
     'taggit',
 
     # Django apps
     'django.forms',
-    'django.contrib.auth',
     'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.sessions',
+    'django.contrib.sitemaps',
     'django.contrib.staticfiles',
 ]
 
@@ -80,25 +80,33 @@ USE_I18N = False
 USE_L10N = False
 USE_TZ = True
 
+DATE_FORMAT = "j F Y"
+SHORT_DATE_FORMAT = "j M Y"
+DATETIME_FORMAT = "j F Y, P"
+SHORT_DATETIME_FORMAT = "j M Y, P"
+TIME_FORMAT = "P"
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+STATICFILES_DIRS = [
+    '/opt/frontend/static',
 ]
 
 # Paths for the application
 addslash = '{}/'.format
 ROOT_URL = PurePosixPath('/')
 ASSETS_URL = ROOT_URL / 'assets'
-MEDIA_URL = addslash(ASSETS_URL / 'media')
-STATIC_URL = addslash(ASSETS_URL / 'static')
-
-EMAIL_SUBJECT_PREFIX = '[dev42] '
+STATIC_URL = '%s/' % (ASSETS_URL / 'static')
+MEDIA_URL = '%s/' % (ASSETS_URL / 'media')
 
 
 # Wagtail settings
-WAGTAIL_SITE_NAME = 'dev42'
+WAGTAIL_SITE_NAME = 'webdev42'
 WAGTAIL_ENABLE_UPDATE_CHECK = False
 
 WAGTAILADMIN_NOTIFICATION_USE_HTML = True

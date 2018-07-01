@@ -17,17 +17,30 @@ install:
 
 script:
   # Run backend tests
-  - docker run
-    --net=host
-    --volume `pwd`/tests:/app/tests
+  # First, create and start the container with a command that does nothing
+  - docker container create
+    --name backend_tests
+    --net host
+    --volume `pwd`/tests:/opt/backend/tests
+    --volume `pwd`/setup.cfg:/opt/backend/setup.cfg
     --env DATABASE_URL="postgres://postgres@localhost/postgres"
     "${IMAGE_NAME}_backend"
-    ./tests/runtests.sh
+    tail -f /dev/null
+  - docker container start backend_tests
+
+  # Run the standard test suite
+  - docker container exec backend_tests ./tests/runtests.sh
+
+  # Run the style tests
+  - docker container exec backend_tests pip3 install flake8 isort
+  - docker container exec backend_tests flake8 timheap/ tests/
+  - docker container exec backend_tests isort --recursive --check-only --diff timheap/ tests/
+
 
 before_deploy:
   # REGISTRY_USER and REGISTRY_PASS are injected secrets
   - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+  - docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:latest"
 
 deploy:
   provider: script

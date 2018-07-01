@@ -14,19 +14,20 @@ django-taggit==0.22.2     # via wagtail
 django-treebeard==4.3     # via wagtail
 django==2.0.5
 djangorestframework==3.8.2  # via wagtail
-draftjs-exporter==2.0.0   # via wagtail
+draftjs-exporter==2.1.1   # via wagtail
 first==2.0.1              # via pip-tools
-html5lib==0.999999999     # via wagtail
+html5lib==1.0.1           # via wagtail
 idna==2.6                 # via requests
+l18n==2016.6.4            # via wagtail
 olefile==0.43
 pillow==4.3.0
 pip-tools==2.0.2
 psycopg2-binary==2.7.4
 pytz==2018.4
 requests==2.18.4          # via wagtail
-six==1.11.0               # via html5lib, pip-tools
+six==1.11.0               # via html5lib, l18n, pip-tools
 unidecode==0.4.21         # via wagtail
 urllib3==1.22             # via requests
-wagtail==2.0.1
+wagtail==2.1
 webencodings==0.5.1       # via html5lib
 willow==1.1               # via wagtail

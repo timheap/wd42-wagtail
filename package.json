@@ -9,33 +9,33 @@
         "url": "git@github.com:timheap/wd42-wagtail.git"
     },
     "scripts": {
-        "clean": "rimraf $npm_package_config_output/*",
-        "makedirs": "mkdir -p $npm_package_config_output/js $npm_package_config_output/css $npm_package_config_output/images $npm_package_config_output/fonts",
+        "clean": "rimraf $npm_package_config_static/*",
+        "makedirs": "mkdir -p $npm_package_config_static/js $npm_package_config_static/css $npm_package_config_static/images $npm_package_config_static/fonts",
         "prebuild": "npm-run-all clean makedirs",
         "build": "npm-run-all --parallel build:*",
-        "build:copy": "copyfiles -u 2 \"$npm_package_config_source/fonts/*.{xml,json,ico,woff,woff2}\" $npm_package_config_output/",
+        "build:copy": "copyfiles -u 2 \"$npm_package_config_design/fonts/*.{xml,json,ico,woff,woff2}\" $npm_package_config_static/",
         "build:css": "npm-run-all build:css:compile build:css:postcss",
-        "build:css:compile": "node-sass --include-path node_modules $npm_package_config_source/scss --output $npm_package_config_output/css",
-        "build:css:postcss": "postcss $npm_package_config_output/css/*.css --dir $npm_package_config_output/css/",
-        "build:images": "imagemin \"$npm_package_config_source/images/**/*.{jpg,png,svg}\" --out-dir=$npm_package_config_output/images",
+        "build:css:compile": "node-sass --include-path node_modules $npm_package_config_design/scss --output $npm_package_config_static/css",
+        "build:css:postcss": "postcss $npm_package_config_static/css/*.css --dir $npm_package_config_static/css/",
+        "build:images": "imagemin \"$npm_package_config_design/images/**/*.{jpg,png,svg}\" --out-dir=$npm_package_config_static/images",
         "build:js": "npm-run-all --parallel build:js:*",
-        "build:js:frontend": "browserify $npm_package_config_source/javascript/app.js $npm_package_config_browserifytransform | uglifyjs -m > $npm_package_config_output/js/app.js",
-        "build:js:admin": "browserify $npm_package_config_source/javascript/admin.js $npm_package_config_browserifytransform | uglifyjs -m > $npm_package_config_output/js/admin.js",
+        "build:js:frontend": "browserify $npm_package_config_design/javascript/app.js $npm_package_config_browserifytransform | uglifyjs -m > $npm_package_config_static/js/app.js",
+        "build:js:admin": "browserify $npm_package_config_design/javascript/admin.js $npm_package_config_browserifytransform | uglifyjs -m > $npm_package_config_static/js/admin.js",
         "prewatch": "npm-run-all makedirs",
         "watch": "npm-run-all --parallel watch:*",
-        "watch:copy": "onchange -iw $npm_package_config_source/fonts/** -- npm-run-all build:copy",
-        "watch:css": "onchange -iw $npm_package_config_source/scss/** -- npm-run-all build:css",
-        "watch:images": "onchange -iw $npm_package_config_source/images/** -- npm-run-all build:images",
+        "watch:copy": "onchange -iw $npm_package_config_design/fonts/** -- npm-run-all build:copy",
+        "watch:css": "onchange -iw $npm_package_config_design/scss/** -- npm-run-all build:css",
+        "watch:images": "onchange -iw $npm_package_config_design/images/** -- npm-run-all build:images",
         "watch:js": "npm-run-all --parallel watch:js:*",
-        "watch:js:frontend": "watchify --verbose --debug $npm_package_config_source/javascript/app.js $npm_package_config_watchifytransform -o $npm_package_config_output/js/app.js",
-        "watch:js:admin": "watchify --verbose --debug $npm_package_config_source/javascript/admin.js $npm_package_config_watchifytransform -o $npm_package_config_output/js/admin.js",
-        "echo": "echo $npm_package_config_source/config/postcss-config.js"
+        "watch:js:frontend": "watchify --verbose --debug $npm_package_config_design/javascript/app.js $npm_package_config_watchifytransform -o $npm_package_config_static/js/app.js",
+        "watch:js:admin": "watchify --verbose --debug $npm_package_config_design/javascript/admin.js $npm_package_config_watchifytransform -o $npm_package_config_static/js/admin.js",
+        "echo": "echo $npm_package_config_design/config/postcss-config.js"
     },
     "config": {
         "browserifytransform": " -t [ eslintify --quiet-ignored true ] -t [ babelify ] ",
         "watchifytransform": " -t [ eslintify --quiet-ignored true ] -t [ babelify ] ",
-        "output": "../static",
-        "source": "."
+        "static": "static",
+        "design": "design"
     },
     "babel": {
         "plugins": [
@@ -169,7 +169,7 @@
     "lint-staged": {
         "*.js": "lint:eslint"
     },
-    "sasslintConfig": "$npm_package_config_source/config/sass-lint.yml",
+    "sasslintConfig": "$npm_package_config_design/config/sass-lint.yml",
     "postcss": {
         "plugins": {
             "autoprefixer": {
