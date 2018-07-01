@@ -33,8 +33,8 @@ script:
 
   # Run the style tests
   - docker container exec backend_tests pip3 install flake8 isort
-  - docker container exec backend_tests flake8 timheap/ tests/
-  - docker container exec backend_tests isort --recursive --check-only --diff timheap/ tests/
+  - docker container exec backend_tests flake8 wd42/ tests/
+  - docker container exec backend_tests isort --recursive --check-only --diff wd42/ tests/
 
 
 before_deploy:

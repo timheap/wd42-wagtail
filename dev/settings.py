@@ -17,7 +17,7 @@ DATABASES = {
     'default': parse('postgres://postgres@database/postgres'),
 }
 
-DATA_ROOT = '/app/data/'
+DATA_ROOT = '/opt/backend/data/'
 MEDIA_ROOT = DATA_ROOT + 'media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

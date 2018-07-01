@@ -10,7 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['dev42.vcap.me', '*', 'localhost']
 BASE_URL = 'http://dev42.vcap.me'
 
-DATA_ROOT = '/app/test-data/'
+DATA_ROOT = os.getenv('TEST_DATA')
 
 # Connect to the docker database by default, can be overridden in Travis.
 DATABASES = {

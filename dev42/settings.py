@@ -149,4 +149,4 @@ LOGGING = {
 
 
 # Google Maps API key
-GOOGLE_MAPS_API_KEY =  "AIzaSyCz040KiMBXhkqsEb_UanP-yELmwqpwjHE"
+GOOGLE_MAPS_API_KEY = "AIzaSyCz040KiMBXhkqsEb_UanP-yELmwqpwjHE"

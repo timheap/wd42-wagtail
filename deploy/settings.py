@@ -1,21 +1,34 @@
-INSTALLED_APPS = [
-    'wagtail.wagtailadmin',
-    'wagtail.wagtailcore',
-    'wagtail.wagtaildocs',
-    'wagtail.wagtailembeds',
-    'wagtail.wagtailimages',
-    'wagtail.wagtailsites',
-    'wagtail.wagtailsnippets',
-    'wagtail.wagtailusers',
-    'wagtail.contrib.settings',
-    'modelcluster',
-    'taggit',
-    'django.forms',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.messages',
-    'django.contrib.sessions',
-    'django.contrib.staticfiles',
-]
-SECRET_KEY = 'naspw'
-ROOT_URLCONF = 'urls'
+import os
+
+from dj_database_url import parse
+
+from wd42.settings import *  # noqa
+
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+DEBUG = bool(int(os.environ['DJANGO_DEBUG']))
+
+HOSTNAME = os.environ['DJANGO_HOSTNAME']
+PROTOCOL = os.environ['DJANGO_PROTOCOL']
+
+ALLOWED_HOSTS = [HOSTNAME]
+BASE_URL = '{}://{}'.format(PROTOCOL, HOSTNAME)
+
+DEFAULT_FILE_STORAGE = 'wd42.storage.S3MediaStorage'
+STATICFILES_STORAGE = 'wd42.storage.S3StaticStorage'
+
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+AWS_AUTO_CREATE_BUCKET = True
+AWS_QUERYSTRING_AUTH = False
+
+DATABASES = {
+    'default': parse(os.environ['DATABASE_URL']),
+}
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL = os.environ['DJANGO_FROM_EMAIL']
+
+WAGTAIL_SITE_NAME = "wd42"
+
+ADMINS = ['errors@timheap.me']
