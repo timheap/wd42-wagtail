@@ -2,7 +2,7 @@ import os
 
 from dj_database_url import parse
 
-from wd42.settings import *  # noqa
+from dev42.settings import *  # noqa
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 DEBUG = bool(int(os.environ['DJANGO_DEBUG']))
@@ -13,8 +13,8 @@ PROTOCOL = os.environ['DJANGO_PROTOCOL']
 ALLOWED_HOSTS = [HOSTNAME]
 BASE_URL = '{}://{}'.format(PROTOCOL, HOSTNAME)
 
-DEFAULT_FILE_STORAGE = 'wd42.storage.S3MediaStorage'
-STATICFILES_STORAGE = 'wd42.storage.S3StaticStorage'
+DEFAULT_FILE_STORAGE = 'dev42.storage.S3MediaStorage'
+STATICFILES_STORAGE = 'dev42.storage.S3StaticStorage'
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -29,6 +29,6 @@ DATABASES = {
 EMAIL_BACKEND = 'django_ses.SESBackend'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL = os.environ['DJANGO_FROM_EMAIL']
 
-WAGTAIL_SITE_NAME = "wd42"
+WAGTAIL_SITE_NAME = "dev42"
 
 ADMINS = ['errors@timheap.me']
