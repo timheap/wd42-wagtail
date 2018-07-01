@@ -1,10 +1,16 @@
-Django~=2.0.0
+django~=2.0.0
+django-storages~=1.6.5
+django-ses~=0.8.5
 dj-database-url~=0.5.0
-psycopg2-binary
+boto3~=1.6.23
+
 wagtail~=2.1.0
+wagtail-metadata~=2.0.0
+
 pytz>=0
 pip-tools~=2.0.2
 
-# Versions from the OS
-pillow==4.3.0
-olefile==0.43
+pillow==4.3.0  # Version from alpine linux
+olefile==0.43  # Version from alpine linux
+
+psycopg2-binary
