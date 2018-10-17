@@ -7,4 +7,10 @@ cd /opt/backend
 
 # Start uwsgi
 exec /usr/sbin/uwsgi \
-	--ini ./deploy/uwsgi.ini
+	--master \
+	--processes 2 \
+	--plugins  python3 \
+	--die-on-term \
+	--uwsgi-socket 0.0.0.0:80 \
+	--chdir /opt/my-web-app \
+	--module mywebapp.wsgi:application
