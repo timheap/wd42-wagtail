@@ -2,20 +2,36 @@
 # Upgrade the WD42 database from the old export running Wagtail 1.3 to running
 # Wagtail 2.1, performing all Wagtail and Django migrations along the way
 
-set -e
-ARGS=( $@ )
+RUNNING="false"
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]] ; then
+	RUNNING="true"
+fi
+
+if $RUNNING ; then
+	set -e
+	ARGS=( $@ )
+fi
 
 PROG="${0}"
 HERE=$( cd -P -- "$( dirname -- "${PROG}" )" && pwd -P )
-REPO=$( basename -- "$HERE" )
+REPO=$( dirname -- "$HERE" )
 PROG="${HERE}/$( basename -- "${PROG}" )"
 
 function main() {
-	local in_file=${0}
+	if [[ $# -lt 1 ]] || [[ $# -gt 2 ]] ; then
+		echo "Usage: ${PROG} <in file> [<out file>]" >&2
+		exit 1
+	fi
+
+	local in_file="${1}"
+	local out_file="${2}"
 
 	cd -- "$REPO"
-	init_db $in_file
+	init_db "${in_file}"
 	upgrade
+	if [[ -n "${out_file}" ]] ; then
+		export_db "${out_file}"
+	fi
 	finalise
 }
 
@@ -25,9 +41,11 @@ function init_db() {
 	echo "Recreating database..."
 	docker-compose start database
 	sleep 1
-	docker-compose exec -T database dropdb -U postgres postgres
+	docker-compose exec -T database dropdb --if-exists -U postgres postgres
 	docker-compose exec -T database createdb -U postgres postgres
-	docker-compose exec -T database psql -U postgres postgres < wd42.sql
+
+	echo "Importing '${in_file}'"
+	docker-compose exec -T database psql -U postgres postgres < "${in_file}"
 }
 
 function upgrade() {
@@ -42,6 +60,13 @@ function upgrade() {
 		/bin/ash
 }
 
+function export_db() {
+	local out_file="${1}"
+
+	echo "Exporting to '${out_file}'"
+	docker-compose exec -T database pg_dump -U postgres postgres > "${out_file}"
+}
+
 function finalise() {
 	docker-compose rm -f backend
 }
@@ -51,9 +76,11 @@ function get_upgrade_script() {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]] ; then
+
 	main "${ARGS[@]}"
 	exit $?
 else
+	:
 	return
 fi
 
@@ -69,7 +96,8 @@ function install() {
 		./manage.py migrate --no-input
 }
 
-cat > urls.py <<'URLS'
+export URLS_FILE="urls.py"
+cat > "${URLS_FILE}" <<'URLS'
 urlpatterns = []
 URLS
 
@@ -143,3 +171,5 @@ pip install -r requirements.txt
 from django.contrib.auth.models import User
 User.objects.create_superuser('admin', 'admin@example.com', 'p')
 PYTHON
+
+rm -f "${SETTINGS_FILE}" "${URLS_FILE}"
