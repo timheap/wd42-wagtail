@@ -12,5 +12,5 @@ exec /usr/sbin/uwsgi \
 	--plugins  python3 \
 	--die-on-term \
 	--uwsgi-socket 0.0.0.0:80 \
-	--chdir /opt/my-web-app \
+	--chdir /opt/backend \
 	--module mywebapp.wsgi:application
