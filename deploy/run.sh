@@ -13,4 +13,4 @@ exec /usr/sbin/uwsgi \
 	--die-on-term \
 	--uwsgi-socket 0.0.0.0:80 \
 	--chdir /opt/backend \
-	--module mywebapp.wsgi:application
+	--module dev42.wsgi:application
