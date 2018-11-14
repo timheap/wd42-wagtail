@@ -8,9 +8,8 @@ cd /opt/backend
 # Start uwsgi
 exec /usr/sbin/uwsgi \
 	--master \
-	--processes 2 \
 	--plugins  python3 \
 	--die-on-term \
-	--uwsgi-socket 0.0.0.0:80 \
 	--chdir /opt/backend \
+	--uwsgi-socket 0.0.0.0:80 \
 	--module dev42.wsgi:application
